@@ -1,93 +1,63 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clases de Matemáticas - Prof. Douglas Ruiz</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clases de Matemáticas | Prof. Douglas Ruiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="container">
     <header>
-      <h1>Clases de Refuerzo en Matemáticas</h1>
-      <p>Prof. Douglas Ruiz - Del 26/01/2026 al 19/02/2026 (Lunes a Jueves)</p>
+        <div class="container">
+            <h1>Prof. Douglas Ruiz</h1>
+            <p>Refuerzo Académico de Matemáticas - Educación Media</p>
+        </div>
     </header>
 
-    <div class="tabs">
-      <button class="tab-button active" data-semana="1">Semana 1</button>
-      <button class="tab-button" data-semana="2">Semana 2</button>
-      <button class="tab-button" data-semana="3">Semana 3</button>
-      <button class="tab-button" data-semana="4">Semana 4</button>
-    </div>
-
-    <div id="calendario">
-      <!-- Aquí se cargarán los bloques por semana -->
-    </div>
-
-    <div class="actions">
-      <button id="btn-modificar">Modificar mi reserva</button>
-    </div>
-  </div>
-
-  <!-- Modal para inscribir -->
-  <div id="modal-inscribir" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Inscribir alumno</h2>
-      <form id="form-inscribir">
-        <input type="hidden" id="bloque-id">
-        <div class="form-group">
-          <label for="nombre">Nombre del alumno:</label>
-          <input type="text" id="nombre" required>
+    <section class="hero">
+        <div class="container">
+            <h2>Claridad, método y confianza para dominar las matemáticas</h2>
+            <p>Clases personalizadas en un espacio del colegio, diseñadas para lograr la comprensión y el éxito académico de tu representado.</p>
         </div>
-        <div class="form-group">
-          <label for="ano">Año escolar:</label>
-          <select id="ano" required>
-            <option value="1">1er año</option>
-            <option value="2">2do año</option>
-            <option value="3">3er año</option>
-            <option value="4">4to año</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="codigo">Elija un código de acceso (guárdelo):</label>
-          <input type="text" id="codigo" required>
-        </div>
-        <button type="submit">Inscribir</button>
-      </form>
-    </div>
-  </div>
+    </section>
 
-  <!-- Modal para modificar/cancelar -->
-  <div id="modal-modificar" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Modificar o cancelar reserva</h2>
-      <div id="modificar-form">
-        <div class="form-group">
-          <label for="codigo-buscar">Ingrese su código de acceso:</label>
-          <input type="text" id="codigo-buscar">
-          <button id="btn-buscar">Buscar</button>
+    <section class="oferta">
+        <div class="container">
+            <h2><i class="fas fa-chalkboard-teacher"></i> Oferta Académica</h2>
+            <div class="bloques">
+                <div class="bloque">
+                    <h3>Bloque Extendido</h3>
+                    <p><i class="far fa-clock"></i> <strong>Horario:</strong> 3:30 p.m. - 5:00 p.m.</p>
+                    <p><i class="fas fa-dollar-sign"></i> <strong>Inversión por clase:</strong> $9</p>
+                </div>
+                <div class="bloque">
+                    <h3>Bloque Estándar</h3>
+                    <p><i class="far fa-clock"></i> <strong>Horario:</strong> 5:00 p.m. - 5:45 p.m.</p>
+                    <p><i class="fas fa-dollar-sign"></i> <strong>Inversión por clase:</strong> $4.50</p>
+                </div>
+            </div>
+            <p class="nota"><strong>Modalidad:</strong> Clases en el colegio, de Lunes a Jueves. Se reserva con el pago adelantado de un <strong>módulo mínimo de 4 clases</strong>.</p>
         </div>
-        <div id="info-inscripcion" style="display: none;">
-          <p>Alumno: <span id="info-nombre"></span></p>
-          <p>Año: <span id="info-ano"></span></p>
-          <p>Bloque actual: <span id="info-bloque"></span></p>
-          <div class="form-group">
-            <label for="nuevo-bloque">Seleccione un nuevo bloque (opcional):</label>
-            <select id="nuevo-bloque">
-              <option value="">-- Seleccione --</option>
-              <!-- Se llenará con bloques disponibles -->
-            </select>
-          </div>
-          <button id="btn-actualizar">Actualizar</button>
-          <button id="btn-cancelar">Cancelar inscripción</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <script src="script.js"></script>
+    <section class="contacto">
+        <div class="container">
+            <h2><i class="fas fa-paper-plane"></i> Reserva o Consulta tu Cupo</h2>
+            <p>Comunícate directamente vía WhatsApp para confirmar disponibilidad, horarios y formalizar tu reserva.</p>
+            <a href="https://wa.me/584127998221?text=Hola%20Prof.%20Douglas,%20me%20interesan%20sus%20clases.%20Mi%20representado%20está%20en%20..."
+               class="whatsapp-btn" target="_blank">
+                <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+            </a>
+            <p class="instruccion">Al contactar, por favor indique:<br>1. Año escolar del alumno.<br>2. Nombre completo del alumno.<br>3. Bloque y día de preferencia.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 - Clases de Matemáticas con el Prof. Douglas Ruiz. Todos los derechos reservados.</p>
+            <p><i class="fas fa-map-marker-alt"></i> Clases impartidas en las instalaciones del colegio.</p>
+        </div>
+    </footer>
 </body>
 </html>
