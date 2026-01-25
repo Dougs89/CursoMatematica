@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clases de Matemáticas - Prof. Douglas Ruiz</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Clases de Refuerzo en Matemáticas</h1>
+      <p>Prof. Douglas Ruiz - Del 26/01/2026 al 19/02/2026 (Lunes a Jueves)</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-button active" data-semana="1">Semana 1</button>
+      <button class="tab-button" data-semana="2">Semana 2</button>
+      <button class="tab-button" data-semana="3">Semana 3</button>
+      <button class="tab-button" data-semana="4">Semana 4</button>
+    </div>
+
+    <div id="calendario">
+      <!-- Aquí se cargarán los bloques por semana -->
+    </div>
+
+    <div class="actions">
+      <button id="btn-modificar">Modificar mi reserva</button>
+    </div>
+  </div>
+
+  <!-- Modal para inscribir -->
+  <div id="modal-inscribir" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Inscribir alumno</h2>
+      <form id="form-inscribir">
+        <input type="hidden" id="bloque-id">
+        <div class="form-group">
+          <label for="nombre">Nombre del alumno:</label>
+          <input type="text" id="nombre" required>
+        </div>
+        <div class="form-group">
+          <label for="ano">Año escolar:</label>
+          <select id="ano" required>
+            <option value="1">1er año</option>
+            <option value="2">2do año</option>
+            <option value="3">3er año</option>
+            <option value="4">4to año</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="codigo">Elija un código de acceso (guárdelo):</label>
+          <input type="text" id="codigo" required>
+        </div>
+        <button type="submit">Inscribir</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para modificar/cancelar -->
+  <div id="modal-modificar" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Modificar o cancelar reserva</h2>
+      <div id="modificar-form">
+        <div class="form-group">
+          <label for="codigo-buscar">Ingrese su código de acceso:</label>
+          <input type="text" id="codigo-buscar">
+          <button id="btn-buscar">Buscar</button>
+        </div>
+        <div id="info-inscripcion" style="display: none;">
+          <p>Alumno: <span id="info-nombre"></span></p>
+          <p>Año: <span id="info-ano"></span></p>
+          <p>Bloque actual: <span id="info-bloque"></span></p>
+          <div class="form-group">
+            <label for="nuevo-bloque">Seleccione un nuevo bloque (opcional):</label>
+            <select id="nuevo-bloque">
+              <option value="">-- Seleccione --</option>
+              <!-- Se llenará con bloques disponibles -->
+            </select>
+          </div>
+          <button id="btn-actualizar">Actualizar</button>
+          <button id="btn-cancelar">Cancelar inscripción</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
