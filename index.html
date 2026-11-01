@@ -1,84 +1,58 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clases Particulares | Prof. Douglas Ruiz</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <h1>Prof. Douglas Ruiz</h1>
-            <p>Refuerzo Académico - Educación Media</p>
-        </div>
-    </header>
-<div class="foto-perfil">
-    <img src="fotoperfil" alt="Profesor Douglas Ruiz">
-</div>
-    <section class="hero">
-        <div class="container">
-            <h2>Claridad, método y confianza para dominar las ciencias numericas</h2>
-            <p>Clases personalizadas en un espacio del colegio, diseñadas para lograr la comprensión y el éxito académico de tu representado.</p>
-        </div>
-    </section>
+<header>
+  <h1>Clases Particulares de Matemática</h1>
+  <p class="prof">Prof. Douglas Ruiz — E.T.I. "Padre Dehon"</p>
+  <p class="nota">Dirigido a estudiantes del colegio. Clases en las aulas del plantel, de lunes a jueves.</p>
+</header>
 
-    <section class="oferta">
-        <div class="container">
-            <h2><i class="fas fa-chalkboard-teacher"></i> Oferta Académica</h2>
-            <div class="bloques">
-                <div class="bloque">
-                    <h3>Primer Bloque</h3>
-                    <p><i class="far fa-clock"></i> <strong>Horario:</strong> 3:30 p.m. - 5:00 p.m.</p>
-                    <p><i class="fas fa-dollar-sign"></i> <strong>Inversión por clase:</strong> $9 al BCV</p>
-                </div>
-                <div class="bloque">
-                    <h3>Segundo Bloque</h3>
-                    <p><i class="far fa-clock"></i> <strong>Horario:</strong> 5:00 p.m. - 5:45 p.m.</p>
-                    <p><i class="fas fa-dollar-sign"></i> <strong>Inversión por clase:</strong> $4.50 al BCV</p>
-                </div>
-            </div>
-            <p class="nota"><strong>Informacion:</strong></p>
-            <p class="nota"><strong><k>Se cobra por clase, no por alumno.</k></strong> Se reserva con el pago adelantado de un <strong> mínimo de 2 clases</strong>.<br>
-                             Una vez cancelada la clase usted tiene el derecho de indicar la materia, el contenido a impartir y la cantidad de alumnos.<br>
-                             Al terminar las clases se le comunicará para indicar si desea continuar para mantener resevada la clase.</p>
-        </div>
-    </section>
-
-<section class="horario">
-    <div class="container">
-        <h2><i class="fas fa-calendar-alt"></i> Horario Semanal de Clases</h2>
-        <p>Consulta a continuación los horarios disponibles y cupos. <strong>Esta tabla se actualiza en tiempo real</strong> cuando realizo cambios.</p>
-        
-        <!-- Pega aquí el código del iframe de Google Sheets -->     
-        <iframe 
-          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTDY4qkpPq9wzQw5Ouu1LnTRdFxjrOK54WPQ0Q7yM6_AbXBjwYIIEbQSjjY1uSFRR0WyjNAtHpP_naJ/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false"&range=A1:E13
-          width="760" 
-          height="450"
-          frameborder="0" 
-          style="border: 1px solid #ddd; border-radius: 8px;">
-        </iframe>
-           
+<section class="estado">
+  <p id="ultima-actualizacion">Última actualización: —</p>
 </section>
-    
-    <section class="contacto">
-        <div class="container">
-            <h2><i class="fas fa-paper-plane"></i> Reserva o Consulta tu Cupo:</h2>
-            <p>Comunícate directamente vía WhatsApp para confirmar disponibilidad, horarios y formalizar tu reserva.</p>
-            <a href="https://wa.me/584127998221?text=Hola%20Prof.%20Douglas,%20me%20interesan%20sus%20clases.%20Mi%20representado%20está%20en%20..."
-               class="whatsapp-btn" target="_blank">
-                <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
-            </a>
-            <p class="instruccion">Al contactar, por favor indique:<br>1. Año escolar del alumno.<br>2. Nombre completo del alumno.<br>3. Bloque y día de preferencia.</p>
-        </div>
-    </section>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 - Clases Particulares con el Prof. Douglas Ruiz. Todos los derechos reservados.</p>
-            <p><i class="fas fa-map-marker-alt"></i> Las clases se imparten en las aula del colegio E.T.I. "Padre Dehon".</p>
-        </div>
-    </footer>
-</body>
-</html>
+<section class="horarios">
+  <h2>Disponibilidad de esta semana</h2>
+  <div id="grilla-horarios">Cargando...</div>
+  <p class="leyenda">
+    <span class="libre">■</span> Disponible &nbsp;
+    <span class="ocupado">■</span> Ocupado
+  </p>
+</section>
+
+<section class="precios">
+  <h2>Precios</h2>
+  <div class="tarjetas">
+    <div class="tarjeta">
+      <h3>Primer Bloque</h3>
+      <p class="hora">3:30 p.m. – 5:00 p.m.</p>
+      <p class="precio">$9 <span>(al BCV)</span></p>
+    </div>
+    <div class="tarjeta">
+      <h3>Segundo Bloque</h3>
+      <p class="hora">5:00 p.m. – 5:45 p.m.</p>
+      <p class="precio">$4.50 <span>(al BCV)</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="proceso">
+  <h2>Cómo reservar</h2>
+  <ol>
+    <li>Revisa la disponibilidad arriba.</li>
+    <li>Escríbeme por WhatsApp con el día y bloque que deseas.</li>
+    <li>Confirma el pago para asegurar el cupo.</li>
+  </ol>
+  <a href="https://wa.me/584127998221?text=Hola%20Prof.%20Douglas,%20quiero%20reservar%20una%20clase" class="btn-wsp">Escribir por WhatsApp</a>
+</section>
+
+<section class="info">
+  <h2>Información importante</h2>
+  <ul>
+    <li>Las clases se imparten en las aulas del colegio, de lunes a jueves.</li>
+    <li>Si el estudiante no asiste sin avisar, la clase se considera dada.</li>
+    <li>Traer cuaderno, lápiz y los ejercicios o guías que necesite repasar.</li>
+    <li>El horario se actualiza cada domingo.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Prof. Douglas Ruiz — WhatsApp 0412-799-8221</p>
+</footer>
