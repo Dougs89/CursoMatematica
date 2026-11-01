@@ -112,7 +112,7 @@
 
   <script>
     // ⚠️ REEMPLAZA ESTE ENLACE CON EL QUE COPIASTE AL PUBLICAR TU HOJA COMO CSV
-    const URL_CSV = 'TU_ENLACE_CSV_DE_GOOGLE_SHEETS_AQUI';
+    const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTDY4qkpPq9wzQw5Ouu1LnTRdFxjrOK54WPQ0Q7yM6_AbXBjwYIIEbQSjjY1uSFRR0WyjNAtHpP_naJ/pub?gid=0&single=true&output=csv';
 
     fetch(URL_CSV)
       .then(res => res.text())
@@ -145,7 +145,7 @@
 
         // 2. Mostrar la fecha de actualización (suponiendo que está en la celda A5 o similar)
         // Ajusta el índice si tu fecha está en otra celda (ej: filas[4][0] para A5)
-        const celdaFecha = filas[4] ? filas[4][0] : null;
+        const celdaFecha = filas[12] ? filas[12][0] : null;
         if (celdaFecha && celdaFecha.trim() !== '') {
           document.getElementById('ultima-actualizacion').textContent = celdaFecha.trim();
         } else {
