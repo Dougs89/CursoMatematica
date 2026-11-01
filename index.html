@@ -101,8 +101,8 @@
   </footer>
 
   <script>
-    // Enlace de Apps Script integrado
-    const URL_API = 'https://script.google.com/macros/s/AKfycbyaTIpFtvZkoWByRDRngIaOVCLslX7u1F3IrQcl84QnptBjw5JvaPOQW8lLSbBXHcuzLQ/exec';
+    // URL de Apps Script integrada
+    const URL_API = 'https://script.google.com/macros/s/AKfycbwhIAptDt1P5oVEk-YuEJ3ESVnjpuSwwHHOBK6mGDv2nMk-RDYB-UaIWU1CPf9bAISZcA/exec';
 
     fetch(URL_API, {
       method: 'POST',
@@ -110,12 +110,13 @@
     })
       .then(res => res.json())
       .then(data => {
-        if(!data || data.length === 0) {
-            document.getElementById('grilla-horarios').innerHTML = '<p style="text-align:center;">No hay horarios registrados.</p>';
+        if (!data || data.length === 0 || data.error) {
+            document.getElementById('grilla-horarios').innerHTML = '<p style="text-align:center;">No se encontraron datos válidos o la hoja está vacía.</p>';
             return;
         }
 
         const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves'];
+        // Ajuste por si en la hoja se escribe con guion en vez de "a"
         const bloques = ['3:30 a 5:00', '5:00 a 5:45'];
         
         let html = '<table class="grilla"><thead><tr><th>HORA</th>';
@@ -126,10 +127,11 @@
             html += `<tr><td class="col-hora">${bloque.replace(' a ', '<br>a<br>')}</td>`;
             
             dias.forEach(dia => {
+                // Buscamos el registro que coincida con el día y el bloque
                 const registro = data.find(d => 
                     d.Dia && d.Bloque && 
                     d.Dia.trim().toLowerCase() === dia.toLowerCase() && 
-                    d.Bloque.trim() === bloque
+                    (d.Bloque.trim() === bloque || d.Bloque.trim().replace(' - ', ' a ') === bloque)
                 );
 
                 if (!registro) {
@@ -161,8 +163,8 @@
         document.getElementById('grilla-horarios').innerHTML = html;
       })
       .catch(err => {
-        console.error(err);
-        document.getElementById('grilla-horarios').innerHTML = '<p style="text-align:center; color:#c53030;">Error de conexión. Escríbeme por WhatsApp.</p>';
+        console.error("Error de conexión:", err);
+        document.getElementById('grilla-horarios').innerHTML = '<p style="text-align:center; color:#c53030;">Error al conectar. Escríbeme por WhatsApp.</p>';
       });
   </script>
 
