@@ -1,41 +1,47 @@
-function doGet() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
-  
-  // Leemos la Fila 1 (Días), Fila 12 (Fechas), Fila 2 (Bloque 1) y Fila 8 (Bloque 2)
-  const headers = sheet.getRange(1, 1, 1, 5).getDisplayValues()[0];
-  const fechas  = sheet.getRange(12, 1, 1, 5).getDisplayValues()[0];
-  
-  const rangoBloque1 = sheet.getRange(2, 1, 1, 5);
-  const rangoBloque2 = sheet.getRange(8, 1, 1, 5);
-  
-  const textoBloque1 = rangoBloque1.getDisplayValues()[0];
-  const colorBloque1 = rangoBloque1.getBackgrounds()[0];
-  
-  const textoBloque2 = rangoBloque2.getDisplayValues()[0];
-  const colorBloque2 = rangoBloque2.getBackgrounds()[0];
-
-  const dias = [];
-  
-  // Iteramos de la columna B (índice 1) a la E (índice 4)
-  for (let i = 1; i <= 4; i++) {
-    dias.push({
-      nombre: headers[i],
-      fecha: fechas[i],
-      b1_texto: textoBloque1[i],
-      b1_color: colorBloque1[i],
-      b2_texto: textoBloque2[i],
-      b2_color: colorBloque2[i]
-    });
+fetch(URL_API, {
+  method: 'POST', // Cambiamos a POST
+  headers: {
+    'Content-Type': 'text/plain' // Este tipo de contenido evita el bloqueo del navegador
   }
+})
+  .then(res => res.json())
+  .then(data => {
+    let html = '<table class="grilla"><thead><tr><th>HORA</th>';
+    data.dias.forEach(d => { html += `<th>${d.nombre}</th>`; });
+    html += '</tr></thead><tbody>';
 
-  // También enviamos las etiquetas de los bloques (Columna A, filas 2 y 8)
-  const result = {
-    bloque1Label: textoBloque1[0],
-    bloque2Label: textoBloque2[0],
-    dias: dias
-  };
+    function obtenerClase(texto) {
+      if (!texto || texto.trim() === '') return 'bg-vacio';
+      if (texto.toUpperCase().includes('DISPONIBLE')) return 'bg-disponible';
+      return 'bg-ocupado';
+    }
 
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
-}
+    // Fila 1 (Bloque 3:30 a 5:00)
+    html += `<tr><td class="col-bloque">3:30 pm<br>a<br>5:00 pm</td>`;
+    data.dias.forEach(d => {
+      const texto = d.b1 || '';
+      html += `<td class="${obtenerClase(texto)}">
+                 <div class="celda-texto">${texto || '—'}</div>
+                 <span class="fecha-texto">${d.fecha}</span>
+               </td>`;
+    });
+    html += `</tr>`;
+
+    // Fila 2 (Bloque 5:00 a 5:45)
+    html += `<tr><td class="col-bloque">5:00 pm<br>a<br>5:45 pm</td>`;
+    data.dias.forEach(d => {
+      const texto = d.b2 || '';
+      html += `<td class="${obtenerClase(texto)}">
+                 <div class="celda-texto">${texto || '—'}</div>
+                 <span class="fecha-texto">${d.fecha}</span>
+               </td>`;
+    });
+    html += `</tr>`;
+
+    html += '</tbody></table>';
+    document.getElementById('grilla-horarios').innerHTML = html;
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('grilla-horarios').innerHTML = '<p style="text-align:center; color:#c53030;">Error al cargar. Escríbeme por WhatsApp.</p>';
+  });
