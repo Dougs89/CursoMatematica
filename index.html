@@ -24,10 +24,11 @@
     .celda-texto { white-space: pre-wrap; font-size: 0.8rem; line-height: 1.3; font-weight: 500; }
     .fecha-texto { font-size: 0.8rem; color: #666; margin-top: 4px; display: block; font-weight: normal; }
 
-    /* Colores basados en el texto */
-    .bg-disponible { background-color: #d9ead3; color: #274e13; }
-    .bg-ocupado    { background-color: #f4cccc; color: #660000; }
-    .bg-vacio      { background-color: #f8f9fa; color: #ccc; }
+    /* --- ¡AQUÍ ESTÁN LOS 4 COLORES! --- */
+    .bg-gris       { background-color: #cccccc; color: #444; }      /* NO DISPONIBLE */
+    .bg-verde      { background-color: #d9ead3; color: #274e13; }   /* DISPONIBLE */
+    .bg-amarillo   { background-color: #fff2cc; color: #783f04; }   /* RESERVADO */
+    .bg-rojo       { background-color: #f4cccc; color: #660000; }   /* PAGADO */
 
     /* Leyenda y otros */
     .leyenda { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; font-size: 0.85rem; margin-top: 15px; font-weight: 600; }
@@ -57,9 +58,10 @@
       <div id="grilla-horarios"><p style="text-align:center;">Cargando horarios...</p></div>
     </div>
     <div class="leyenda">
-      <span class="bg-disponible">DISPONIBLE</span>
-      <span class="bg-ocupado">RESERVADO / PAGADO</span>
-      <span class="bg-vacio">SIN CLASE</span>
+      <span class="bg-gris">NO DISPONIBLE</span>
+      <span class="bg-verde">DISPONIBLE</span>
+      <span class="bg-amarillo">RESERVADO</span>
+      <span class="bg-rojo">PAGADO</span>
     </div>
   </section>
 
@@ -83,7 +85,7 @@
     <h2>Cómo reservar</h2>
     <ol>
       <li>Revisa la tabla de arriba. Las celdas verdes están libres.</li>
-      <li>Las celdas rojas ya tienen un estudiante, pero puedes compartir el cupo.</li>
+      <li>Las celdas amarillas están reservadas (pendientes por pago). Las rojas ya están pagadas.</li>
       <li>Escríbeme por WhatsApp con el día y el bloque que deseas.</li>
     </ol>
     <div style="text-align: center;">
@@ -92,27 +94,45 @@
   </section>
 
   <script>
-    // Enlace mágico actualizado y listo
-    const URL_API = 'https://script.google.com/macros/s/AKfycbwR-KxzwANEH6WtweJiV_qs3VsLND6Of8xciZ-XOjMhXGbuhTgAellGN6l1uUXkvjkWNw/exec';
+    const URL_API = 'https://script.google.com/macros/s/AKfycbzBY3ChqBnewxk-FDqZ8gjBiS5-9lf2X3q40PkRNd0Tmrljiy1HnU4KORfrPbuXzAN8fA/exec';
 
-    fetch(URL_API)
+    // Función que traduce el color HEX de Google a nuestras clases CSS
+    function obtenerClasePorColor(hex) {
+      if (!hex) return 'bg-gris';
+      hex = hex.toLowerCase();
+      
+      // Colores Grises (No disponible)
+      if (['#cccccc', '#d9d9d9', '#efefef', '#b7b7b7'].includes(hex)) return 'bg-gris';
+      
+      // Colores Verdes (Disponible)
+      if (['#d9ead3', '#b6d7a8', '#93c47d'].includes(hex)) return 'bg-verde';
+      
+      // Colores Amarillos (Reservado)
+      if (['#fff2cc', '#ffe599', '#ffd966'].includes(hex)) return 'bg-amarillo';
+      
+      // Colores Rojos (Pagado)
+      if (['#f4cccc', '#ea9999', '#e06666'].includes(hex)) return 'bg-rojo';
+      
+      // Si hay un color que no está en la lista, por defecto lo pintamos de gris
+      return 'bg-gris';
+    }
+
+    fetch(URL_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+    })
       .then(res => res.json())
       .then(data => {
         let html = '<table class="grilla"><thead><tr><th>HORA</th>';
         data.dias.forEach(d => { html += `<th>${d.nombre}</th>`; });
         html += '</tr></thead><tbody>';
 
-        function obtenerClase(texto) {
-          if (!texto || texto.trim() === '') return 'bg-vacio';
-          if (texto.toUpperCase().includes('DISPONIBLE')) return 'bg-disponible';
-          return 'bg-ocupado';
-        }
-
         // Fila 1 (Bloque 3:30 a 5:00)
         html += `<tr><td class="col-bloque">3:30 pm<br>a<br>5:00 pm</td>`;
         data.dias.forEach(d => {
           const texto = d.b1 || '';
-          html += `<td class="${obtenerClase(texto)}">
+          const colorClass = obtenerClasePorColor(d.color_b1); // Usamos el color real
+          html += `<td class="${colorClass}">
                      <div class="celda-texto">${texto || '—'}</div>
                      <span class="fecha-texto">${d.fecha}</span>
                    </td>`;
@@ -123,7 +143,8 @@
         html += `<tr><td class="col-bloque">5:00 pm<br>a<br>5:45 pm</td>`;
         data.dias.forEach(d => {
           const texto = d.b2 || '';
-          html += `<td class="${obtenerClase(texto)}">
+          const colorClass = obtenerClasePorColor(d.color_b2); // Usamos el color real
+          html += `<td class="${colorClass}">
                      <div class="celda-texto">${texto || '—'}</div>
                      <span class="fecha-texto">${d.fecha}</span>
                    </td>`;
