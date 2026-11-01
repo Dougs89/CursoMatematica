@@ -15,19 +15,19 @@
     section { max-width: 1000px; margin: 0 auto 25px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); }
     h2 { font-size: 1.3rem; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
 
-    /* Envoltorio para permitir deslizar en móvil (Solución al problema de la izquierda) */
+    /* Envoltorio para permitir deslizar en móvil */
     .tabla-wrapper {
       width: 100%;
       overflow-x: auto;
-      -webkit-overflow-scrolling: touch; /* Deslizamiento suave en iOS */
-      padding-bottom: 15px; /* Espacio para que la barra de scroll no pegue con el borde */
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 15px;
     }
 
-    /* El contenedor de la tabla */
+    /* El contenedor de la tabla (VERSIÓN PC) */
     .iframe-container {
       width: 755px;  
       height: 470px; 
-      margin: 0 auto; /* ¡ESTO ES LA MAGIA! Centra en PC y permite scroll desde la izquierda en móvil */
+      margin: 0 auto; 
       border-radius: 8px;
       border: 1px solid #cbd5e0;
       background-color: #fff;
@@ -65,13 +65,12 @@
       h2 { font-size: 1.1rem; }
       section { padding: 15px; margin-bottom: 15px; border-radius: 8px; }
       
-      /* Hacemos que el botón de WhatsApp ocupe todo el ancho en el celular */
       .btn-wsp { width: 100%; box-sizing: border-box; padding: 15px 10px; font-size: 1rem; }
       
-      /* Ajustamos el contenedor de la tabla para móviles */
+      /* Ajuste de altura exclusivo para móvil (+6px) */
       .iframe-container {
-        width: 755px; /* Mantenemos el ancho para que no se aplaste y se pueda deslizar */
-        height: 450px; 
+        width: 755px; 
+        height: 456px; /* <-- Aquí están los 6 píxeles extra */
       }
     }
   </style>
@@ -89,9 +88,7 @@
     <h2>Cronograma y Disponibilidad</h2>
     
     <div class="tabla-wrapper">
-      <!-- Contenedor con las medidas exactas -->
       <div class="iframe-container">
-        <!-- Sin el scrolling="no" para que Google maneje la tabla naturalmente -->
         <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTDY4qkpPq9wzQw5Ouu1LnTRdFxjrOK54WPQ0Q7yM6_AbXBjwYIIEbQSjjY1uSFRR0WyjNAtHpP_naJ/pubhtml?gid=0&single=true&widget=true&headers=false"></iframe>
       </div>
     </div>
