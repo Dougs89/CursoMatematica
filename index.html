@@ -14,7 +14,7 @@
     section { max-width: 900px; margin: 0 auto 25px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); }
     h2 { font-size: 1.3rem; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
 
-    /* Estilos de la Tabla */
+    /* Tabla */
     .tabla-responsive { overflow-x: auto; }
     .grilla { width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: center; min-width: 600px; }
     .grilla th { background: #c9daf8; color: #1e3a5f; padding: 10px 5px; border: 1px solid #a4c2f4; font-weight: bold; }
@@ -24,27 +24,22 @@
     .celda-texto { white-space: pre-wrap; font-size: 0.8rem; line-height: 1.3; font-weight: 500; }
     .fecha-texto { font-size: 0.8rem; color: #666; margin-top: 4px; display: block; font-weight: normal; }
 
-    /* Colores de las celdas basados en tu hoja */
+    /* Colores basados en el texto */
     .bg-disponible { background-color: #d9ead3; color: #274e13; }
-    .bg-reservado  { background-color: #fff2cc; color: #783f04; }
-    .bg-pagado     { background-color: #f4cccc; color: #660000; }
-    .bg-gris       { background-color: #cccccc; color: #444; }
+    .bg-ocupado    { background-color: #f4cccc; color: #660000; }
+    .bg-vacio      { background-color: #f8f9fa; color: #ccc; }
 
-    /* Leyenda */
+    /* Leyenda y otros */
     .leyenda { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; font-size: 0.85rem; margin-top: 15px; font-weight: 600; }
     .leyenda span { padding: 5px 12px; border-radius: 4px; border: 1px solid #ccc; }
-
-    /* Precios, Proceso e Info */
     .tarjetas { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
     .tarjeta { background: #f8fafc; border-radius: 10px; padding: 18px; flex: 1 1 200px; text-align: center; border: 1px solid #e2e8f0; }
     .tarjeta h3 { margin-top: 0; color: #1e3a5f; font-size: 1rem; }
     .tarjeta .hora { font-size: 0.85rem; color: #4a5568; margin: 4px 0; }
     .tarjeta .precio { font-size: 1.7rem; font-weight: 700; color: #e67e22; margin: 8px 0 0; }
     .tarjeta .precio span { font-size: 0.85rem; font-weight: 400; color: #718096; }
-
     ol { padding-left: 20px; }
     .btn-wsp { display: inline-block; background: #25D366; color: white; padding: 14px 28px; border-radius: 50px; font-weight: 600; text-decoration: none; margin-top: 15px; text-align: center; }
-    .info ul { padding-left: 20px; }
     footer { text-align: center; font-size: 0.85rem; color: #718096; margin-top: 30px; }
   </style>
 </head>
@@ -62,10 +57,9 @@
       <div id="grilla-horarios"><p style="text-align:center;">Cargando horarios...</p></div>
     </div>
     <div class="leyenda">
-      <span class="bg-gris">NO DISPONIBLE</span>
       <span class="bg-disponible">DISPONIBLE</span>
-      <span class="bg-reservado">RESERVADO</span>
-      <span class="bg-pagado">PAGADO</span>
+      <span class="bg-ocupado">RESERVADO / PAGADO</span>
+      <span class="bg-vacio">SIN CLASE</span>
     </div>
   </section>
 
@@ -88,76 +82,83 @@
   <section class="proceso">
     <h2>Cómo reservar</h2>
     <ol>
-      <li>Revisa la tabla de arriba para ver qué días tienen espacio disponible (color verde).</li>
-      <li>Si hay varios estudiantes, pueden compartir el costo del bloque (como se muestra en las celdas amarillas y rojas).</li>
-      <li>Escríbeme por WhatsApp con el día y el bloque que deseas. El cupo se asegura una vez confirmado el pago.</li>
+      <li>Revisa la tabla de arriba. Las celdas verdes están libres.</li>
+      <li>Las celdas rojas ya tienen un estudiante, pero puedes compartir el cupo.</li>
+      <li>Escríbeme por WhatsApp con el día y el bloque que deseas.</li>
     </ol>
     <div style="text-align: center;">
       <a href="https://wa.me/584127998221?text=Hola%20Prof.%20Douglas,%20quiero%20reservar%20una%20clase" class="btn-wsp">Escribir por WhatsApp</a>
     </div>
   </section>
 
-  <section class="info">
-    <h2>Información importante</h2>
-    <ul>
-      <li>Las clases se imparten en las aulas del colegio, de lunes a jueves.</li>
-      <li>Si el estudiante no asiste sin avisar, la clase se considera dada.</li>
-      <li>Traer cuaderno, lápiz y los ejercicios o guías que necesite repasar.</li>
-    </ul>
-  </section>
-
-  <footer>
-    <p>Prof. Douglas Ruiz — WhatsApp 0412-799-8221</p>
-  </footer>
-
   <script>
-    // ⚠️ REEMPLAZA ESTA URL CON LA DE TU APPS SCRIPT (la que termina en /exec)
-    const URL_API = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
+    // Enlace CSV integrado
+    const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTDY4qkpPq9wzQw5Ouu1LnTRdFxjrOK54WPQ0Q7yM6_AbXBjwYIIEbQSjjY1uSFRR0WyjNAtHpP_naJ/pub?gid=0&single=true&output=csv';
 
-    // Función para asignar la clase de CSS según el color de fondo de Google Sheets
-    function getColorClass(hex) {
-      hex = hex.toLowerCase();
-      if (hex === '#d9ead3' || hex === '#b6d7a8' || hex === '#93c47d' || hex.includes('d9')) return 'bg-disponible';
-      if (hex === '#fff2cc' || hex === '#ffe599' || hex === '#ffd966' || hex.includes('ff')) return 'bg-reservado';
-      if (hex === '#f4cccc' || hex === '#ea9999' || hex === '#e06666' || hex.includes('f4')) return 'bg-pagado';
-      if (hex === '#cccccc' || hex === '#d9d9d9' || hex === '#efefef' || hex.includes('cc')) return 'bg-gris';
-      return ''; // Si no reconoce el color, lo deja blanco por defecto
+    // Función para leer el CSV sin romperse si hay comas en el texto
+    function parseCSV(text) {
+      const lines = text.split('\n');
+      return lines.map(line => {
+        const row = [];
+        let inQuotes = false;
+        let current = '';
+        for (let i = 0; i < line.length; i++) {
+          const char = line[i];
+          if (char === '"') inQuotes = !inQuotes;
+          else if (char === ',' && !inQuotes) { row.push(current); current = ''; }
+          else current += char;
+        }
+        row.push(current);
+        return row;
+      });
     }
 
-    fetch(URL_API)
-      .then(res => res.json())
-      .then(data => {
-        let html = '<table class="grilla"><thead><tr><th style="background:#c9daf8;">HORA</th>';
+    fetch(URL_CSV)
+      .then(res => res.text())
+      .then(csv => {
+        const filas = parseCSV(csv);
         
-        // Encabezados (Lunes a Jueves)
-        data.dias.forEach(d => {
-          html += `<th>${d.nombre}</th>`;
-        });
+        // Extraemos los datos exactos de las filas de tu hoja
+        const encabezados = filas[0];
+        const fechas = filas[11]; // Fila 12 en Excel
+        const bloque1 = filas[1]; // Fila 2 en Excel
+        const bloque2 = filas[7]; // Fila 8 en Excel
+
+        let html = '<table class="grilla"><thead><tr><th>HORA</th>';
+        for (let i = 1; i <= 4; i++) html += `<th>${encabezados[i] || ''}</th>`;
         html += '</tr></thead><tbody>';
 
-        // --- FILA BLOQUE 1 (3:30 a 5:00) ---
-        html += `<tr><td class="col-bloque">${data.bloque1Label.replace(/\n/g, '<br>')}</td>`;
-        data.dias.forEach(d => {
-          const colorClass = getColorClass(d.b1_color);
-          const texto = d.b1_texto ? d.b1_texto : '—';
-          html += `<td class="${colorClass}">
-                    <div class="celda-texto">${texto}</div>
-                    <span class="fecha-texto">${d.fecha}</span>
-                   </td>`;
-        });
-        html += '</tr>';
+        // Función para decidir el color de la celda según el texto
+        function obtenerClase(texto) {
+          if (!texto || texto.trim() === '') return 'bg-vacio';
+          const t = texto.toUpperCase();
+          if (t.includes('DISPONIBLE')) return 'bg-disponible';
+          return 'bg-ocupado'; // Si tiene nombre o cualquier otra cosa, se pinta rojo
+        }
 
-        // --- FILA BLOQUE 2 (5:00 a 5:45) ---
-        html += `<tr><td class="col-bloque">${data.bloque2Label.replace(/\n/g, '<br>')}</td>`;
-        data.dias.forEach(d => {
-          const colorClass = getColorClass(d.b2_color);
-          const texto = d.b2_texto ? d.b2_texto : '—';
-          html += `<td class="${colorClass}">
-                    <div class="celda-texto">${texto}</div>
-                    <span class="fecha-texto">${d.fecha}</span>
+        // Fila Bloque 1
+        html += `<tr><td class="col-bloque">3:30 pm<br>a<br>5:00 pm</td>`;
+        for (let i = 1; i <= 4; i++) {
+          const texto = bloque1[i] ? bloque1[i].replace(/(["])/g, '') : '';
+          const clase = obtenerClase(texto);
+          html += `<td class="${clase}">
+                     <div class="celda-texto">${texto || '—'}</div>
+                     <span class="fecha-texto">${fechas[i] || ''}</span>
                    </td>`;
-        });
-        html += '</tr>';
+        }
+        html += `</tr>`;
+
+        // Fila Bloque 2
+        html += `<tr><td class="col-bloque">5:00 pm<br>a<br>5:45 pm</td>`;
+        for (let i = 1; i <= 4; i++) {
+          const texto = bloque2[i] ? bloque2[i].replace(/(["])/g, '') : '';
+          const clase = obtenerClase(texto);
+          html += `<td class="${clase}">
+                     <div class="celda-texto">${texto || '—'}</div>
+                     <span class="fecha-texto">${fechas[i] || ''}</span>
+                   </td>`;
+        }
+        html += `</tr>`;
 
         html += '</tbody></table>';
         document.getElementById('grilla-horarios').innerHTML = html;
@@ -165,7 +166,7 @@
       .catch(err => {
         console.error(err);
         document.getElementById('grilla-horarios').innerHTML =
-          '<p style="text-align:center; color:#c53030;">No se pudo cargar la disponibilidad. Por favor, escríbeme por WhatsApp.</p>';
+          '<p style="text-align:center; color:#c53030;">Error al cargar. Escríbeme por WhatsApp.</p>';
       });
   </script>
 
