@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clases de Matemática - Prof. Douglas Ruiz</title>
   <style>
+    /* Estilos Base */
     body { font-family: 'Segoe UI', Roboto, sans-serif; color: #2d3748; background: #f7f9fc; line-height: 1.5; margin: 0; padding: 20px; }
     h1, h2 { color: #1e3a5f; text-align: center; }
     h1 { font-size: 1.8rem; margin-bottom: 5px; }
@@ -14,40 +15,33 @@
     section { max-width: 1000px; margin: 0 auto 25px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); }
     h2 { font-size: 1.3rem; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
 
-    /* Envoltorio para centrar en escritorio y permitir deslizar en móvil */
+    /* Envoltorio para permitir deslizar en móvil (Solución al problema de la izquierda) */
     .tabla-wrapper {
       width: 100%;
       overflow-x: auto;
-      display: flex;
-      justify-content: center;
-      padding-bottom: 5px;
+      -webkit-overflow-scrolling: touch; /* Deslizamiento suave en iOS */
+      padding-bottom: 15px; /* Espacio para que la barra de scroll no pegue con el borde */
     }
 
-    /* Contenedor con medidas exactas y overflow oculto para eliminar barras */
+    /* El contenedor de la tabla */
     .iframe-container {
       width: 755px;  
       height: 470px; 
-      flex-shrink: 0;
+      margin: 0 auto; /* ¡ESTO ES LA MAGIA! Centra en PC y permite scroll desde la izquierda en móvil */
       border-radius: 8px;
-      overflow: hidden; /* Esto oculta las barras de desplazamiento */
       border: 1px solid #cbd5e0;
       background-color: #fff;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      position: relative;
     }
     
     .iframe-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
       height: 100%;
       border: none;
       display: block;
-      overflow: hidden;
     }
 
-    /* Precios y otros */
+    /* Precios */
     .tarjetas { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 15px; }
     .tarjeta { background: #f8fafc; border-radius: 10px; padding: 20px; flex: 1 1 200px; text-align: center; border: 1px solid #e2e8f0; }
     .tarjeta h3 { margin-top: 0; color: #1e3a5f; font-size: 1.1rem; }
@@ -55,11 +49,31 @@
     .tarjeta .precio { font-size: 1.8rem; font-weight: 700; color: #e67e22; margin: 10px 0 0; }
     .tarjeta .precio span { font-size: 0.9rem; font-weight: 400; color: #718096; }
     
+    /* Proceso y botón */
     ol { padding-left: 20px; font-size: 0.95rem; }
     ol li { margin-bottom: 8px; }
     .btn-wsp { display: inline-block; background: #25D366; color: white; padding: 15px 30px; border-radius: 50px; font-weight: 600; font-size: 1.1rem; text-decoration: none; margin-top: 20px; text-align: center; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); transition: transform 0.2s; }
     .btn-wsp:hover { transform: scale(1.05); }
     footer { text-align: center; font-size: 0.85rem; color: #718096; margin-top: 40px; }
+
+    /* ==========================================
+       DISEÑO ADAPTADO PARA CELULARES (MÓVIL)
+       ========================================== */
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1.1rem; }
+      section { padding: 15px; margin-bottom: 15px; border-radius: 8px; }
+      
+      /* Hacemos que el botón de WhatsApp ocupe todo el ancho en el celular */
+      .btn-wsp { width: 100%; box-sizing: border-box; padding: 15px 10px; font-size: 1rem; }
+      
+      /* Ajustamos el contenedor de la tabla para móviles */
+      .iframe-container {
+        width: 755px; /* Mantenemos el ancho para que no se aplaste y se pueda deslizar */
+        height: 450px; 
+      }
+    }
   </style>
 </head>
 <body>
@@ -75,10 +89,10 @@
     <h2>Cronograma y Disponibilidad</h2>
     
     <div class="tabla-wrapper">
-      <!-- Contenedor ajustado para ocultar las barras -->
+      <!-- Contenedor con las medidas exactas -->
       <div class="iframe-container">
-        <!-- Añadido scrolling="no" para forzar la ocultación de barras -->
-        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTDY4qkpPq9wzQw5Ouu1LnTRdFxjrOK54WPQ0Q7yM6_AbXBjwYIIEbQSjjY1uSFRR0WyjNAtHpP_naJ/pubhtml?gid=0&single=true&widget=true&headers=false" scrolling="no"></iframe>
+        <!-- Sin el scrolling="no" para que Google maneje la tabla naturalmente -->
+        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTDY4qkpPq9wzQw5Ouu1LnTRdFxjrOK54WPQ0Q7yM6_AbXBjwYIIEbQSjjY1uSFRR0WyjNAtHpP_naJ/pubhtml?gid=0&single=true&widget=true&headers=false"></iframe>
       </div>
     </div>
     
@@ -106,7 +120,6 @@
       <li>Revisa la tabla de arriba para ver los días y horas disponibles.</li>
       <li>Escríbeme por WhatsApp indicando el día, la hora y los datos del estudiante.</li>
       <li>Una vez confirmado el pago, el bloque se marcará como <b>PAGADO</b> en la tabla.</li>
-      <!-- Nuevas políticas agregadas aquí -->
       <li><b>Política de cancelación:</b> Tienes un lapso máximo de <b>24 horas</b> para cancelar la reserva o volverá a estar disponible para otra persona.</li>
       <li><b>Tamaño de la clase:</b> Se requiere un <b>mínimo de 2 alumnos</b> por clase para poder impartirla, sin límite máximo de alumnos.</li>
     </ol>
