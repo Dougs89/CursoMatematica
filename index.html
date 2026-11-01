@@ -92,72 +92,42 @@
   </section>
 
   <script>
-    // Enlace CSV integrado
-    const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTDY4qkpPq9wzQw5Ouu1LnTRdFxjrOK54WPQ0Q7yM6_AbXBjwYIIEbQSjjY1uSFRR0WyjNAtHpP_naJ/pub?gid=0&single=true&output=csv';
+    // ¡Tu enlace mágico ya está integrado aquí!
+    const URL_API = 'https://script.google.com/macros/s/AKfycbyUppDEW2ITDpOGdHJEZsetfXJiqO5KVYOUy-vWsRZ_8bPAeh8zhlhHp8faJtyB0Hoq/exec';
 
-    // Función para leer el CSV sin romperse si hay comas en el texto
-    function parseCSV(text) {
-      const lines = text.split('\n');
-      return lines.map(line => {
-        const row = [];
-        let inQuotes = false;
-        let current = '';
-        for (let i = 0; i < line.length; i++) {
-          const char = line[i];
-          if (char === '"') inQuotes = !inQuotes;
-          else if (char === ',' && !inQuotes) { row.push(current); current = ''; }
-          else current += char;
-        }
-        row.push(current);
-        return row;
-      });
-    }
-
-    fetch(URL_CSV)
-      .then(res => res.text())
-      .then(csv => {
-        const filas = parseCSV(csv);
-        
-        // Extraemos los datos exactos de las filas de tu hoja
-        const encabezados = filas[0];
-        const fechas = filas[11]; // Fila 12 en Excel
-        const bloque1 = filas[1]; // Fila 2 en Excel
-        const bloque2 = filas[7]; // Fila 8 en Excel
-
+    fetch(URL_API)
+      .then(res => res.json())
+      .then(data => {
         let html = '<table class="grilla"><thead><tr><th>HORA</th>';
-        for (let i = 1; i <= 4; i++) html += `<th>${encabezados[i] || ''}</th>`;
+        data.dias.forEach(d => { html += `<th>${d.nombre}</th>`; });
         html += '</tr></thead><tbody>';
 
-        // Función para decidir el color de la celda según el texto
         function obtenerClase(texto) {
           if (!texto || texto.trim() === '') return 'bg-vacio';
-          const t = texto.toUpperCase();
-          if (t.includes('DISPONIBLE')) return 'bg-disponible';
-          return 'bg-ocupado'; // Si tiene nombre o cualquier otra cosa, se pinta rojo
+          if (texto.toUpperCase().includes('DISPONIBLE')) return 'bg-disponible';
+          return 'bg-ocupado';
         }
 
-        // Fila Bloque 1
+        // Fila 1 (Bloque 3:30 a 5:00)
         html += `<tr><td class="col-bloque">3:30 pm<br>a<br>5:00 pm</td>`;
-        for (let i = 1; i <= 4; i++) {
-          const texto = bloque1[i] ? bloque1[i].replace(/(["])/g, '') : '';
-          const clase = obtenerClase(texto);
-          html += `<td class="${clase}">
+        data.dias.forEach(d => {
+          const texto = d.b1 || '';
+          html += `<td class="${obtenerClase(texto)}">
                      <div class="celda-texto">${texto || '—'}</div>
-                     <span class="fecha-texto">${fechas[i] || ''}</span>
+                     <span class="fecha-texto">${d.fecha}</span>
                    </td>`;
-        }
+        });
         html += `</tr>`;
 
-        // Fila Bloque 2
+        // Fila 2 (Bloque 5:00 a 5:45)
         html += `<tr><td class="col-bloque">5:00 pm<br>a<br>5:45 pm</td>`;
-        for (let i = 1; i <= 4; i++) {
-          const texto = bloque2[i] ? bloque2[i].replace(/(["])/g, '') : '';
-          const clase = obtenerClase(texto);
-          html += `<td class="${clase}">
+        data.dias.forEach(d => {
+          const texto = d.b2 || '';
+          html += `<td class="${obtenerClase(texto)}">
                      <div class="celda-texto">${texto || '—'}</div>
-                     <span class="fecha-texto">${fechas[i] || ''}</span>
+                     <span class="fecha-texto">${d.fecha}</span>
                    </td>`;
-        }
+        });
         html += `</tr>`;
 
         html += '</tbody></table>';
@@ -165,8 +135,7 @@
       })
       .catch(err => {
         console.error(err);
-        document.getElementById('grilla-horarios').innerHTML =
-          '<p style="text-align:center; color:#c53030;">Error al cargar. Escríbeme por WhatsApp.</p>';
+        document.getElementById('grilla-horarios').innerHTML = '<p style="text-align:center; color:#c53030;">Error al cargar. Escríbeme por WhatsApp.</p>';
       });
   </script>
 
