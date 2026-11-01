@@ -23,12 +23,11 @@
     .celda-texto { white-space: pre-wrap; font-size: 0.8rem; line-height: 1.3; font-weight: 500; }
     .fecha-texto { font-size: 0.8rem; color: #666; margin-top: 4px; display: block; font-weight: normal; }
 
-    /* Clases de color basadas en categorías */
-    .bg-gris       { background-color: #cccccc; color: #444; }
+    /* Los 4 colores */
+    .bg-gris       { background-color: #cccccc; color: #444; } 
     .bg-verde      { background-color: #d9ead3; color: #274e13; }
     .bg-amarillo   { background-color: #fff2cc; color: #783f04; }
     .bg-rojo       { background-color: #f4cccc; color: #660000; }
-    .bg-blanco     { background-color: #ffffff; color: #333; }
 
     .leyenda { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; font-size: 0.85rem; margin-top: 15px; font-weight: 600; }
     .leyenda span { padding: 5px 12px; border-radius: 4px; border: 1px solid #ccc; }
@@ -83,9 +82,9 @@
   <section class="proceso">
     <h2>Cómo reservar</h2>
     <ol>
-      <li>Revisa la tabla de arriba. Las celdas verdes están libres.</li>
-      <li>Las celdas amarillas están reservadas (pendientes por pago). Las rojas ya están pagadas.</li>
+      <li>Revisa la tabla de arriba para ver la disponibilidad.</li>
       <li>Escríbeme por WhatsApp con el día y el bloque que deseas.</li>
+      <li>Confirma el pago para asegurar el cupo (se pintará de rojo).</li>
     </ol>
     <div style="text-align: center;">
       <a href="https://wa.me/584127998221?text=Hola%20Prof.%20Douglas,%20quiero%20reservar%20una%20clase" class="btn-wsp">Escribir por WhatsApp</a>
@@ -93,40 +92,75 @@
   </section>
 
   <script>
-    const URL_API = 'https://script.google.com/macros/s/AKfycbzBY3ChqBnewxk-FDqZ8gjBiS5-9lf2X3q40PkRNd0Tmrljiy1HnU4KORfrPbuXzAN8fA/exec';
+    // Usamos el enlace CSV original que sí nos funcionó
+    const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTDY4qkpPq9wzQw5Ouu1LnTRdFxjrOK54WPQ0Q7yM6_AbXBjwYIIEbQSjjY1uSFRR0WyjNAtHpP_naJ/pub?gid=0&single=true&output=csv';
 
-    fetch(URL_API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-    })
-      .then(res => res.json())
-      .then(data => {
+    function parseCSV(text) {
+      const lines = text.split('\n');
+      return lines.map(line => {
+        const row = [];
+        let inQuotes = false;
+        let current = '';
+        for (let i = 0; i < line.length; i++) {
+          const char = line[i];
+          if (char === '"') inQuotes = !inQuotes;
+          else if (char === ',' && !inQuotes) { row.push(current); current = ''; }
+          else current += char;
+        }
+        row.push(current);
+        return row;
+      });
+    }
+
+    fetch(URL_CSV)
+      .then(res => res.text())
+      .then(csv => {
+        const filas = parseCSV(csv);
+        
+        const encabezados = filas[0];
+        const fechas = filas[11]; 
+        const bloque1 = filas[1]; 
+        const bloque2 = filas[7]; 
+
         let html = '<table class="grilla"><thead><tr><th>HORA</th>';
-        data.dias.forEach(d => { html += `<th>${d.nombre}</th>`; });
+        for (let i = 1; i <= 4; i++) html += `<th>${encabezados[i] || ''}</th>`;
         html += '</tr></thead><tbody>';
+
+        // Esta función decide el color según el TEXTO en tu hoja
+        function obtenerColor(texto) {
+          if (!texto) return 'bg-gris';
+          const t = texto.toUpperCase();
+          
+          if (t.includes('DISPONIBLE')) return 'bg-verde';
+          if (t.includes('NO DISPONIBLE') || t.includes('SIN CLASE')) return 'bg-gris';
+          if (t.includes('RESERVADO')) return 'bg-amarillo';
+          
+          // Si tiene el nombre de una materia o un teléfono (ej. "MATEMATICA 2do año..."), lo pintamos de rojo
+          return 'bg-rojo'; 
+        }
 
         // Fila 1
         html += `<tr><td class="col-bloque">3:30 pm<br>a<br>5:00 pm</td>`;
-        data.dias.forEach(d => {
-          const texto = d.b1 || '';
-          const clase = `bg-${d.categoria_b1}`; // Usamos la categoría que envía el script
+        for (let i = 1; i <= 4; i++) {
+          const texto = bloque1[i] ? bloque1[i].replace(/(["])/g, '') : '';
+          const clase = obtenerColor(texto);
           html += `<td class="${clase}">
                      <div class="celda-texto">${texto || '—'}</div>
-                     <span class="fecha-texto">${d.fecha}</span>
+                     <span class="fecha-texto">${fechas[i] || ''}</span>
                    </td>`;
-        });
+        }
         html += `</tr>`;
 
         // Fila 2
         html += `<tr><td class="col-bloque">5:00 pm<br>a<br>5:45 pm</td>`;
-        data.dias.forEach(d => {
-          const texto = d.b2 || '';
-          const clase = `bg-${d.categoria_b2}`;
+        for (let i = 1; i <= 4; i++) {
+          const texto = bloque2[i] ? bloque2[i].replace(/(["])/g, '') : '';
+          const clase = obtenerColor(texto);
           html += `<td class="${clase}">
                      <div class="celda-texto">${texto || '—'}</div>
-                     <span class="fecha-texto">${d.fecha}</span>
+                     <span class="fecha-texto">${fechas[i] || ''}</span>
                    </td>`;
-        });
+        }
         html += `</tr>`;
 
         html += '</tbody></table>';
@@ -134,7 +168,8 @@
       })
       .catch(err => {
         console.error(err);
-        document.getElementById('grilla-horarios').innerHTML = '<p style="text-align:center; color:#c53030;">Error al cargar. Escríbeme por WhatsApp.</p>';
+        document.getElementById('grilla-horarios').innerHTML =
+          '<p style="text-align:center; color:#c53030;">Error al cargar. Escríbeme por WhatsApp.</p>';
       });
   </script>
 
