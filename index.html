@@ -5,46 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clases de Matemática - Prof. Douglas Ruiz</title>
   <style>
-    /* Estilos base para una lectura clara y profesional */
-    body { font-family: 'Segoe UI', Roboto, sans-serif; color: #2d3748; background: #f7f9fc; line-height: 1.6; margin: 0; padding: 20px; }
+    body { font-family: 'Segoe UI', Roboto, sans-serif; color: #2d3748; background: #f7f9fc; line-height: 1.5; margin: 0; padding: 20px; }
     h1, h2 { color: #1e3a5f; text-align: center; }
-    h1 { font-size: 2rem; margin-bottom: 5px; }
-    .prof { text-align: center; color: #4a5568; margin-top: 0; }
-    .nota { text-align: center; font-size: 0.9rem; color: #718096; margin-bottom: 30px; }
-    section { max-width: 800px; margin: 0 auto 30px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); }
-    h2 { font-size: 1.4rem; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+    h1 { font-size: 1.8rem; margin-bottom: 5px; }
+    .prof { text-align: center; color: #4a5568; margin-top: 0; font-weight: 600; }
+    .nota { text-align: center; font-size: 0.9rem; color: #718096; margin-bottom: 25px; }
     
-    /* Estilos de la grilla de horarios */
-    .grilla { width: 100%; border-collapse: separate; border-spacing: 6px; font-size: 0.95rem; }
-    .grilla th { background: #1e3a5f; color: white; padding: 10px 8px; border-radius: 6px; font-weight: 600; }
-    .grilla td { padding: 12px 8px; text-align: center; border-radius: 6px; font-weight: 600; }
-    .grilla .bloque { background: #edf2f7; font-size: 0.85rem; }
-    .grilla .libre   { background: #c6f6d5; color: #22543d; } /* verde */
-    .grilla .ocupado { background: #e2e8f0; color: #a0aec0; } /* gris */
-    .leyenda { text-align: center; font-size: 0.9rem; margin-top: 10px; }
-    .leyenda .libre   { color: #38a169; }
-    .leyenda .ocupado { color: #a0aec0; }
+    section { max-width: 900px; margin: 0 auto 25px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.05); }
+    h2 { font-size: 1.3rem; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+
+    /* Estilos de la Tabla */
+    .tabla-responsive { overflow-x: auto; }
+    .grilla { width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: center; min-width: 600px; }
+    .grilla th { background: #c9daf8; color: #1e3a5f; padding: 10px 5px; border: 1px solid #a4c2f4; font-weight: bold; }
+    .grilla td { border: 1px solid #ccc; padding: 10px 5px; vertical-align: middle; }
     
-    /* Precios */
-    .tarjetas { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-    .tarjeta { background: #f8fafc; border-radius: 10px; padding: 20px; flex: 1 1 200px; text-align: center; border: 1px solid #e2e8f0; }
-    .tarjeta h3 { margin-top: 0; color: #1e3a5f; }
-    .tarjeta .hora { font-size: 0.9rem; color: #4a5568; margin: 5px 0; }
-    .tarjeta .precio { font-size: 1.8rem; font-weight: 700; color: #e67e22; margin: 10px 0 0; }
-    .tarjeta .precio span { font-size: 0.9rem; font-weight: 400; color: #718096; }
-    
-    /* Proceso y enlaces */
+    .col-bloque { background: #c9daf8; color: #1e3a5f; font-weight: bold; width: 80px; }
+    .celda-texto { white-space: pre-wrap; font-size: 0.8rem; line-height: 1.3; font-weight: 500; }
+    .fecha-texto { font-size: 0.8rem; color: #666; margin-top: 4px; display: block; font-weight: normal; }
+
+    /* Colores de las celdas basados en tu hoja */
+    .bg-disponible { background-color: #d9ead3; color: #274e13; }
+    .bg-reservado  { background-color: #fff2cc; color: #783f04; }
+    .bg-pagado     { background-color: #f4cccc; color: #660000; }
+    .bg-gris       { background-color: #cccccc; color: #444; }
+
+    /* Leyenda */
+    .leyenda { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; font-size: 0.85rem; margin-top: 15px; font-weight: 600; }
+    .leyenda span { padding: 5px 12px; border-radius: 4px; border: 1px solid #ccc; }
+
+    /* Precios, Proceso e Info */
+    .tarjetas { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .tarjeta { background: #f8fafc; border-radius: 10px; padding: 18px; flex: 1 1 200px; text-align: center; border: 1px solid #e2e8f0; }
+    .tarjeta h3 { margin-top: 0; color: #1e3a5f; font-size: 1rem; }
+    .tarjeta .hora { font-size: 0.85rem; color: #4a5568; margin: 4px 0; }
+    .tarjeta .precio { font-size: 1.7rem; font-weight: 700; color: #e67e22; margin: 8px 0 0; }
+    .tarjeta .precio span { font-size: 0.85rem; font-weight: 400; color: #718096; }
+
     ol { padding-left: 20px; }
-    .btn-wsp { display: inline-block; background: #25D366; color: white; padding: 14px 28px; border-radius: 50px; font-weight: 600; text-decoration: none; text-align: center; margin-top: 15px; }
-    .btn-wsp:hover { transform: scale(1.02); }
+    .btn-wsp { display: inline-block; background: #25D366; color: white; padding: 14px 28px; border-radius: 50px; font-weight: 600; text-decoration: none; margin-top: 15px; text-align: center; }
     .info ul { padding-left: 20px; }
-    footer { text-align: center; font-size: 0.9rem; color: #718096; margin-top: 40px; }
-    
-    @media (max-width: 500px) {
-      .grilla { font-size: 0.8rem; }
-      .grilla td, .grilla th { padding: 8px 4px; }
-      .tarjetas { flex-direction: column; }
-    }
+    footer { text-align: center; font-size: 0.85rem; color: #718096; margin-top: 30px; }
   </style>
 </head>
 <body>
@@ -55,21 +56,21 @@
     <p class="nota">Clases en las aulas del colegio, de lunes a jueves. Disponibilidad actualizada cada domingo.</p>
   </header>
 
-  <section class="estado">
-    <p id="ultima-actualizacion" style="text-align:center; font-weight:600; color:#1e3a5f;">Cargando fecha de actualización...</p>
-  </section>
-
   <section class="horarios">
-    <h2>Disponibilidad de esta semana</h2>
-    <div id="grilla-horarios">Cargando horarios...</div>
-    <p class="leyenda">
-      <span class="libre">■</span> Disponible &nbsp;
-      <span class="ocupado">■</span> Ocupado
-    </p>
+    <h2>Disponibilidad y Compartir de Cupos</h2>
+    <div class="tabla-responsive">
+      <div id="grilla-horarios"><p style="text-align:center;">Cargando horarios...</p></div>
+    </div>
+    <div class="leyenda">
+      <span class="bg-gris">NO DISPONIBLE</span>
+      <span class="bg-disponible">DISPONIBLE</span>
+      <span class="bg-reservado">RESERVADO</span>
+      <span class="bg-pagado">PAGADO</span>
+    </div>
   </section>
 
   <section class="precios">
-    <h2>Precios</h2>
+    <h2>Costos de la Clase</h2>
     <div class="tarjetas">
       <div class="tarjeta">
         <h3>Primer Bloque</h3>
@@ -87,9 +88,9 @@
   <section class="proceso">
     <h2>Cómo reservar</h2>
     <ol>
-      <li>Revisa la disponibilidad en la grilla de arriba.</li>
-      <li>Escríbeme por WhatsApp con el día y el bloque que deseas.</li>
-      <li>Confirma el pago para asegurar tu cupo.</li>
+      <li>Revisa la tabla de arriba para ver qué días tienen espacio disponible (color verde).</li>
+      <li>Si hay varios estudiantes, pueden compartir el costo del bloque (como se muestra en las celdas amarillas y rojas).</li>
+      <li>Escríbeme por WhatsApp con el día y el bloque que deseas. El cupo se asegura una vez confirmado el pago.</li>
     </ol>
     <div style="text-align: center;">
       <a href="https://wa.me/584127998221?text=Hola%20Prof.%20Douglas,%20quiero%20reservar%20una%20clase" class="btn-wsp">Escribir por WhatsApp</a>
@@ -102,7 +103,6 @@
       <li>Las clases se imparten en las aulas del colegio, de lunes a jueves.</li>
       <li>Si el estudiante no asiste sin avisar, la clase se considera dada.</li>
       <li>Traer cuaderno, lápiz y los ejercicios o guías que necesite repasar.</li>
-      <li>El horario se actualiza cada domingo.</li>
     </ul>
   </section>
 
@@ -111,52 +111,61 @@
   </footer>
 
   <script>
-    // ⚠️ REEMPLAZA ESTE ENLACE CON EL QUE COPIASTE AL PUBLICAR TU HOJA COMO CSV
-    const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTDY4qkpPq9wzQw5Ouu1LnTRdFxjrOK54WPQ0Q7yM6_AbXBjwYIIEbQSjjY1uSFRR0WyjNAtHpP_naJ/pub?gid=0&single=true&output=csv';
+    // ⚠️ REEMPLAZA ESTA URL CON LA DE TU APPS SCRIPT (la que termina en /exec)
+    const URL_API = 'https://script.google.com/macros/s/TU_ID_AQUI/exec';
 
-    fetch(URL_CSV)
-      .then(res => res.text())
-      .then(csv => {
-        // Parseo simple del CSV (asumiendo que no hay comas dentro de las celdas)
-        const filas = csv.trim().split('\n').map(fila => fila.split(','));
+    // Función para asignar la clase de CSS según el color de fondo de Google Sheets
+    function getColorClass(hex) {
+      hex = hex.toLowerCase();
+      if (hex === '#d9ead3' || hex === '#b6d7a8' || hex === '#93c47d' || hex.includes('d9')) return 'bg-disponible';
+      if (hex === '#fff2cc' || hex === '#ffe599' || hex === '#ffd966' || hex.includes('ff')) return 'bg-reservado';
+      if (hex === '#f4cccc' || hex === '#ea9999' || hex === '#e06666' || hex.includes('f4')) return 'bg-pagado';
+      if (hex === '#cccccc' || hex === '#d9d9d9' || hex === '#efefef' || hex.includes('cc')) return 'bg-gris';
+      return ''; // Si no reconoce el color, lo deja blanco por defecto
+    }
 
-        // 1. Generar la grilla de horarios (filas 0 a 2, columnas 0 a 4)
-        const encabezado = filas[0]; // ["Bloque", "Lunes", "Martes", "Miércoles", "Jueves"]
-        let htmlGrilla = '<table class="grilla"><thead><tr>';
-        encabezado.forEach(col => htmlGrilla += `<th>${col.trim()}</th>`);
-        htmlGrilla += '</tr></thead><tbody>';
+    fetch(URL_API)
+      .then(res => res.json())
+      .then(data => {
+        let html = '<table class="grilla"><thead><tr><th style="background:#c9daf8;">HORA</th>';
+        
+        // Encabezados (Lunes a Jueves)
+        data.dias.forEach(d => {
+          html += `<th>${d.nombre}</th>`;
+        });
+        html += '</tr></thead><tbody>';
 
-        for (let i = 1; i <= 2; i++) { // Solo las 2 filas de bloques
-          if (!filas[i]) continue;
-          htmlGrilla += '<tr>';
-          filas[i].forEach((celda, j) => {
-            if (j === 0) {
-              htmlGrilla += `<td class="bloque">${celda.trim()}</td>`;
-            } else {
-              const estado = celda.trim().toLowerCase();
-              const clase = estado === 'disponible' ? 'libre' : 'ocupado';
-              htmlGrilla += `<td class="${clase}">${celda.trim()}</td>`;
-            }
-          });
-          htmlGrilla += '</tr>';
-        }
-        htmlGrilla += '</tbody></table>';
-        document.getElementById('grilla-horarios').innerHTML = htmlGrilla;
+        // --- FILA BLOQUE 1 (3:30 a 5:00) ---
+        html += `<tr><td class="col-bloque">${data.bloque1Label.replace(/\n/g, '<br>')}</td>`;
+        data.dias.forEach(d => {
+          const colorClass = getColorClass(d.b1_color);
+          const texto = d.b1_texto ? d.b1_texto : '—';
+          html += `<td class="${colorClass}">
+                    <div class="celda-texto">${texto}</div>
+                    <span class="fecha-texto">${d.fecha}</span>
+                   </td>`;
+        });
+        html += '</tr>';
 
-        // 2. Mostrar la fecha de actualización (suponiendo que está en la celda A5 o similar)
-        // Ajusta el índice si tu fecha está en otra celda (ej: filas[4][0] para A5)
-        const celdaFecha = filas[12] ? filas[12][0] : null;
-        if (celdaFecha && celdaFecha.trim() !== '') {
-          document.getElementById('ultima-actualizacion').textContent = celdaFecha.trim();
-        } else {
-          document.getElementById('ultima-actualizacion').textContent = 'Última actualización: consultar por WhatsApp';
-        }
+        // --- FILA BLOQUE 2 (5:00 a 5:45) ---
+        html += `<tr><td class="col-bloque">${data.bloque2Label.replace(/\n/g, '<br>')}</td>`;
+        data.dias.forEach(d => {
+          const colorClass = getColorClass(d.b2_color);
+          const texto = d.b2_texto ? d.b2_texto : '—';
+          html += `<td class="${colorClass}">
+                    <div class="celda-texto">${texto}</div>
+                    <span class="fecha-texto">${d.fecha}</span>
+                   </td>`;
+        });
+        html += '</tr>';
+
+        html += '</tbody></table>';
+        document.getElementById('grilla-horarios').innerHTML = html;
       })
-      .catch(error => {
-        console.error('Error al cargar la hoja:', error);
-        document.getElementById('grilla-horarios').innerHTML = 
-          '<p style="text-align:center;">No se pudo cargar la disponibilidad. Por favor, escríbeme por WhatsApp.</p>';
-        document.getElementById('ultima-actualizacion').textContent = 'No se pudo cargar la fecha.';
+      .catch(err => {
+        console.error(err);
+        document.getElementById('grilla-horarios').innerHTML =
+          '<p style="text-align:center; color:#c53030;">No se pudo cargar la disponibilidad. Por favor, escríbeme por WhatsApp.</p>';
       });
   </script>
 
