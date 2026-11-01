@@ -1,115 +1,30 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 20px;
-  background-color: #f4f4f4;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.tabs {
-  display: flex;
-  margin-bottom: 20px;
-}
-
-.tab-button {
-  padding: 10px 20px;
-  margin-right: 10px;
-  background-color: #ddd;
-  border: none;
-  cursor: pointer;
-}
-
-.tab-button.active {
-  background-color: #4CAF50;
-  color: white;
-}
-
-#calendario {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.dia {
-  background-color: white;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.bloque {
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.bloque.extendido {
-  border-left: 5px solid #2196F3;
-}
-
-.bloque.estandar {
-  border-left: 5px solid #FF9800;
-}
-
-.inscritos {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 5px;
-}
-
-.inscrito {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  margin-right: 5px;
-  margin-bottom: 5px;
-}
-
-.ano-1 { background-color: blue; }
-.ano-2 { background-color: green; }
-.ano-3 { background-color: purple; }
-.ano-4 { background-color: orange; }
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
+.grilla {
   width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  border-collapse: separate;
+  border-spacing: 6px;
+  font-size: 0.95rem;
 }
-
-.modal-content {
-  background-color: white;
-  margin: 10% auto;
-  padding: 20px;
-  width: 80%;
-  max-width: 500px;
-  border-radius: 5px;
+.grilla th {
+  background: #1e3a5f;
+  color: white;
+  padding: 8px;
+  border-radius: 6px;
+  font-weight: 600;
 }
-
-.close {
-  float: right;
-  font-size: 28px;
-  cursor: pointer;
+.grilla td {
+  padding: 12px 8px;
+  text-align: center;
+  border-radius: 6px;
+  font-weight: 600;
 }
+.grilla .bloque { background: #edf2f7; font-size: 0.85rem; }
+.grilla .libre   { background: #c6f6d5; color: #22543d; }  /* verde */
+.grilla .ocupado { background: #e2e8f0; color: #a0aec0; }  /* gris apagado */
+.leyenda { text-align: center; font-size: 0.9rem; margin-top: 10px; }
+.leyenda .libre   { color: #38a169; }
+.leyenda .ocupado { color: #a0aec0; }
 
-.foto-perfil {
-    text-align: center;
-    margin: 20px 0;
-}
-
-.foto-perfil img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 5px solid white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+@media (max-width: 500px) {
+  .grilla { font-size: 0.8rem; }
+  .grilla td, .grilla th { padding: 8px 4px; }
 }
